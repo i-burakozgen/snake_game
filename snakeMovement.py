@@ -6,6 +6,7 @@ class SnakeMovement:
         self.position = position
         self.screen = Screen()
         self.current_head_rot = 0
+        self.speed = 10
         logging.info(f"snake initialized with position {self.position}")
 
     def bodyCreator(self):
@@ -21,6 +22,7 @@ class SnakeMovement:
             snake_x = self.segments[segment_num - 1].xcor()
             snake_y = self.segments[segment_num - 1].ycor()
             self.segments[segment_num].goto(snake_x, snake_y)
+            self.border_logic()
 
     def set_heading(self, angle):
         current_angle = self.segments[0].heading()
@@ -47,6 +49,18 @@ class SnakeMovement:
     def startMovement(self):
         self.segments[0].forward(10)
 
+
+    def border_logic(self):
+        head_x = self.segments[0].xcor()
+        head_y = self.segments[0].ycor()
+        if head_x > 370:
+            self.segments[0].teleport(x = -360)
+        elif head_x < -370:
+            self.segments[0].teleport(x = 360)
+        elif head_y > 370:
+            self.segments[0].teleport(y = -360)
+        elif head_y < -370:
+            self.segments[0].teleport(y = 360)
 
 
     def gameIsOn(self):
